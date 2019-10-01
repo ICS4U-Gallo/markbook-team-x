@@ -162,7 +162,7 @@ while True:
         elif command == 2:
             while True:
                 try:
-                    num = int(input(" 1 -- preview student list \n 2 -- preview classroom list \n 3 -- View current assignments created \n"))
+                    num = int(input(" 1 -- preview student list \n 2 -- preview classroom list \n 3 -- View current assignments created \n 4 -- Back \n"))
                 except:
                     print("That is not an eligible number.")
                 else:
