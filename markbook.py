@@ -3,12 +3,10 @@ Markbook Application
 Group members: Lucas, Richard, Alex Lee, Joe, Matthew
 """
 
-
-
-
 from typing import Dict
 import json
 
+#stores data that is inputted by the user
 data = {}
 data['student_list'] = []
 data['student_data'] = {}
@@ -35,8 +33,7 @@ def create_assignment(name: str, due: str, points: int, classcode: str) -> Dict:
 
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
     """Creates a classroom dictionary"""
-    return {"CourseCode": course_code, "CourseName": course_name, "Period": period,
-    "Teacher": teacher, "Students": []}
+    return {"CourseCode": course_code, "CourseName": course_name, "Period": period, "Teacher": teacher, "Students": []}
 
 
 def add_student_to_classroom(first_name: str, last_name: str, course_code: str):
@@ -60,11 +57,15 @@ def add_student_to_classroom(first_name: str, last_name: str, course_code: str):
     pass
 
 #adds a student to the database
+
+
 def create_student(first_name: str, last_name: str, gender: str, student_number: int, grade: int, email: str) -> Dict:
     return {"first_name": first_name, "last_name": last_name,
             "gender": gender, "student_number": student_number, "grade": grade, "email": email}
 
 #removes a student from the database
+
+
 def remove_student_from_classroom(first_name: str, last_name: str, course_code: str):
     student_name = first_name + ' ' + last_name
     with open('data.txt') as json_file:
@@ -81,6 +82,8 @@ def remove_student_from_classroom(first_name: str, last_name: str, course_code: 
     pass
 
 #edits a student
+
+
 def edit_student(key, value):
     """Edits the student's info with the provided key/value pairs
     Args:
@@ -108,6 +111,7 @@ while True:
     else:
         if command not in range(1, 5):
             print("That is not a command, please see help for more details.")
+        # command to access creating data
         elif command == 1:
             while True:
                 try:
@@ -117,6 +121,7 @@ while True:
                 else:
                     if num not in range(1, 5):
                         print("please pick a number between 1 or 4.")
+                    # create a student profile and add it to the student list
                     elif num == 1:
                         first_name = str(input("First Name:"))
                         last_name = str(input("Last Name:"))
@@ -132,6 +137,7 @@ while True:
 
                         print("Student Inputted.")
 
+                    #creates an assignment and adds it to the assignment list
                     elif num == 2:
                         name = str(input("Name of Assignment:"))
                         due = str(input("Due Date:"))
@@ -144,6 +150,7 @@ while True:
 
                         print("Assignment Inputted.")
 
+                    #creates a class and adds it to classroom list
                     elif num == 3:
                         course_code = str(input("Course Code:"))
                         course_name = str(input("Course Name:"))
@@ -153,12 +160,11 @@ while True:
                         data['classroom_list'].append(create_classroom(course_code, course_name, period, teacher))
                         with open('data.txt', 'w') as outfile:
                             json.dump(data, outfile)
-
                         print('Classroom inputted.')
-
+                    #stops the loop
                     elif num == 4:
                         break
-
+        #shows data within the system
         elif command == 2:
             while True:
                 try:
@@ -168,6 +174,7 @@ while True:
                 else:
                     if num not in range(1, 5):
                         print("please pick a number between 1 to 4.")
+                    #previews student list
                     elif num == 1:
                         with open('data.txt') as json_file:
                             data = json.load(json_file)
@@ -175,6 +182,7 @@ while True:
                                 for key, value in student.items():
                                     print(key, "|", value)
                                     print("---------------------")
+                    #previews classroom list
                     elif num == 2:
                         with open('data.txt') as json_file:
                             data = json.load(json_file)
@@ -182,7 +190,7 @@ while True:
                                 for key, value in classroom.items():
                                     print(key, "|", value)
                                     print("---------------------")
-
+                    #previews assignment list
                     elif num == 3:
                         with open('data.txt') as json_file:
                             data = json.load(json_file)
@@ -191,10 +199,10 @@ while True:
                                     print(key, "|", value)
                                     print("----------------------")
 
-
+                    #ends the loop
                     elif num == 4:
                         break
-
+        #command to edit or remove data
         elif command == 3:
             while True:
                 try:
@@ -204,18 +212,19 @@ while True:
                 else:
                     if num not in range(1, 5):
                         print("Please pick a number between 1 to 4")
+                    #adds a student to a classroom
                     elif num == 1:
                         first_name = str(input("Student's first name:"))
                         last_name = str(input("Student's last name:"))
                         course_code = str(input("Course code of the class thent is to be added to:"))
                         add_student_to_classroom(first_name, last_name, course_code)
-
+                    #removes a student from a classroom
                     elif num == 2:
                         first_name = str(input("Student's first name:"))
                         last_name = str(input("Student's last name:"))
                         course_code = str(input("Course code of the class the student is to be removed from:"))
                         remove_student_from_classroom(first_name, last_name, course_code)
-
+                    #edits a student's information
                     elif num == 3:
                         while True:
                             try:
@@ -237,50 +246,54 @@ while True:
                                                 else:
                                                     if num not in range(1, 8):
                                                         print("That is not a valid number.")
+                                                    #changes first name
                                                     elif num == 1:
                                                         value = str(input("Change the student's first name:"))
                                                         key = "first_name"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #changes last name
                                                     elif num == 2:
                                                         value = str(input("Change the student's last name:"))
                                                         key = "last_name"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #changes gender
                                                     elif num == 3:
                                                         value = str(input("Change the student's gender:"))
                                                         key = "gender"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #changes student number
                                                     elif num == 4:
                                                         value = int(input("Change the student's number:"))
                                                         key = "student_number"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #changes student grade
                                                     elif num == 5:
                                                         value = int(input("Change the student's grade:"))
                                                         key = "grade"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #changes student email
                                                     elif num == 6:
                                                         value = str(input("Change the student's email:"))
                                                         key = "email"
                                                         edit_student(key, value)
                                                         print("Changes saved.")
+                                                    #breaks the edit student information loop
                                                     elif num == 7:
                                                         break
+                            #breaks the edit information loop
                             if num == 7:
                                 break
-
+                    #breaks the loop
                     elif num == 4:
                         break
-                        
+        #breaks the beginning loop
         elif command == 4:
             print("All changes inputted.")
             with open('data.txt', 'w') as outfile:
                 json.dump(data, outfile)
             break
-
-
-                                                       
-                            
