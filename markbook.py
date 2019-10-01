@@ -1,7 +1,11 @@
 """
 Markbook Application
-Group members: Richard, Lucas, Joe, Matthew, Alex
+Group members: Lucas, Richard, Alex Lee, Joe, Matthew
 """
+
+
+
+
 from typing import Dict
 import json
 
@@ -13,7 +17,7 @@ data['classroom_list'] = []
 data['classroom_data'] = {}
 
 
-def create_assignment(name: str, due: str, points: int) -> Dict:
+def create_assignment(name: str, due: str, points: int, classcode: str) -> Dict:
     """Creates an assignment represented as a dictionary
 
     Args:
@@ -25,7 +29,8 @@ def create_assignment(name: str, due: str, points: int) -> Dict:
     """
     return {"name": name,
             "due": due,
-            "points": points}
+            "points": points,
+            "classcode": classcode}
 
 
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
@@ -54,12 +59,12 @@ def add_student_to_classroom(first_name: str, last_name: str, course_code: str):
 
     pass
 
-
+#adds a student to the database
 def create_student(first_name: str, last_name: str, gender: str, student_number: int, grade: int, email: str, mark: int) -> Dict:
     return {"first_name": first_name, "last_name": last_name,
             "gender": gender, "student_number": student_number, "grade": grade, "email": email}
 
-
+#removes a student from the database
 def remove_student_from_classroom(first_name: str, last_name: str, course_code: str):
     student_name = first_name + ' ' + last_name
     with open('data.txt') as json_file:
@@ -75,7 +80,7 @@ def remove_student_from_classroom(first_name: str, last_name: str, course_code: 
 
     pass
 
-
+#edits a student
 def edit_student(key, value):
     """Edits the student's info with the provided key/value pairs
     Args:
@@ -92,7 +97,7 @@ def edit_student(key, value):
                 json.dump(data, outfile)
     pass
 
-
+#main menu, uses numbers as commands
 print("Markbook v.1002323020302")
 print("In the markbook program we use numbers as commmands, below are the following numbers which will allow for you to navigate the database. \n")
 while True:
@@ -101,8 +106,8 @@ while True:
     except:
         print("That is not a command, please see help for more details.")
     else:
-        if command not in range(1,5):
-            print("That is not a command, please see help for more details.") 
+        if command not in range(1, 5):
+            print("That is not a command, please see help for more details.")
         elif command == 1:
             while True:
                 try:
@@ -110,7 +115,7 @@ while True:
                 except:
                     print("That is not a selectable number.")
                 else:
-                    if num not in range(1,5):
+                    if num not in range(1, 5):
                         print("please pick a number between 1 or 4.")
                     elif num == 1:
                         first_name = str(input("First Name:"))
@@ -131,8 +136,9 @@ while True:
                         name = str(input("Name of Assignment:"))
                         due = str(input("Due Date:"))
                         points = int(input("Marks the assignment is out of:"))
+                        coursecode = str(input("Course Code of the class the assignment is being added to:"))
 
-                        data['assignment_list'].append(create_assignment(name, due, points))
+                        data['assignment_list'].append(create_assignment(name, due, points, coursecode))
                         with open('data.txt', 'w') as outfile:
                             json.dump(data, outfile)
 
@@ -156,11 +162,11 @@ while True:
         elif command == 2:
             while True:
                 try:
-                    num = int(input(" 1 -- preview student list \n 2 -- preview classroom list \n 3 -- exit \n"))
+                    num = int(input(" 1 -- preview student list \n 2 -- preview classroom list \n 3 -- View current assignments created \n"))
                 except:
                     print("That is not an eligible number.")
                 else:
-                    if num not in range(1,4):
+                    if num not in range(1, 5):
                         print("please pick a number between 1 to 4.")
                     elif num == 1:
                         with open('data.txt') as json_file:
@@ -177,8 +183,16 @@ while True:
                                     print(key, "|", value)
                                     print("---------------------")
 
-
                     elif num == 3:
+                        with open('data.txt') as json_file:
+                            data = json.load(json_file)
+                            for assignment in data["assignment_list"]:
+                                for key, value in assignment.items():
+                                    print(key, "|", value)
+                                    print("----------------------")
+
+
+                    elif num == 4:
                         break
 
         elif command == 3:
@@ -188,7 +202,7 @@ while True:
                 except:
                     print("That is not an eligible number.")
                 else:
-                    if num not in range(1,5):
+                    if num not in range(1, 5):
                         print("Please pick a number between 1 to 4")
                     elif num == 1:
                         first_name = str(input("Student's first name:"))
@@ -221,7 +235,7 @@ while True:
                                                 except:
                                                     print("That is not a valid number.")
                                                 else:
-                                                    if num not in range(1,8):
+                                                    if num not in range(1, 8):
                                                         print("That is not a valid number.")
                                                     elif num == 1:
                                                         value = str(input("Change the student's first name:"))
