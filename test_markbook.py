@@ -6,24 +6,24 @@ import markbook
 def test_create_assigment():
     assignment1 = markbook.create_assignment(name="Assignment One",
                                             due="2019-09-21",
-                                            points=100
-                                            classcode = ICS4U1)
+                                            points=100,
+                                            classcode = "ICS4U1")
     expected = {
         "name": "Assignment One",
         "due": "2019-09-21",
-        "points": 100
+        "points": 100,
         "classcode": ICS4U
     }
     assert assignment1 == expected
 
     assignment2 = main.create_assignment(name="Assignment Two",
                                              due=None,
-                                             points=1
-                                             classcode = ICS4U1)
+                                             points=1,
+                                             classcode = "ICS4U1")
     assert assignment2["name"] == "Assignment Two"
     assert assignment2["due"] is None
     assert assignment2["points"] == 1
-    assert assignment2["classcode"] == ICS4U1
+    assert assignment2["classcode"] == "ICS4U1"
 
 
 def test_create_classroom():
