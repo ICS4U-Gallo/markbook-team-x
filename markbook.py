@@ -60,7 +60,7 @@ def add_student_to_classroom(first_name: str, last_name: str, course_code: str):
     pass
 
 #adds a student to the database
-def create_student(first_name: str, last_name: str, gender: str, student_number: int, grade: int, email: str, mark: int) -> Dict:
+def create_student(first_name: str, last_name: str, gender: str, student_number: int, grade: int, email: str) -> Dict:
     return {"first_name": first_name, "last_name": last_name,
             "gender": gender, "student_number": student_number, "grade": grade, "email": email}
 
